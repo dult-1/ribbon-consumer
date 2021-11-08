@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 /**
  * Created by dult on 2021-11-1.
  */
@@ -32,12 +35,12 @@ public class ConsumerController {
     }
 
     @RequestMapping(value = "/ribbon-consumer-all")
-    public String findAll(){
+    public String findAll() throws ExecutionException, InterruptedException {
         HystrixRequestContext context = HystrixRequestContext.initializeContext();
-        String result = allConsumerService.find("12");
-        String result2 = allConsumerService.find("13");
-        String result3 = allConsumerService.find("14");
+        Future<String> result = allConsumerService.find("12");
+        Future<String> result2 = allConsumerService.find("13");
+        Future<String> result3 = allConsumerService.find("14");
         context.close();
-        return result+" "+result2+" "+result3;
+        return result.get()+" "+result2.get()+" "+result3.get();
     }
 }

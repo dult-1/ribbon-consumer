@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 /**
  * 测试Hystrix请求合并器
@@ -21,7 +22,7 @@ public class AllConsumerService {
 
     @HystrixCollapser(batchMethod = "findAll",scope = com.netflix.hystrix.HystrixCollapser.Scope.GLOBAL,
             collapserProperties = {@HystrixProperty(name="timerDelayInMilliseconds",value = "3000")})
-    public String find(String id){
+    public Future<String> find(String id){
         System.out.println("====进入find方法=====");
         return null;
     }
