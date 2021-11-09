@@ -5,6 +5,7 @@ import dult.service.AllConsumerService;
 import dult.service.ConsumerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.ExecutionException;
@@ -42,5 +43,13 @@ public class ConsumerController {
         Future<String> result3 = allConsumerService.find("14");
         context.close();
         return result.get()+" "+result2.get()+" "+result3.get();
+    }
+
+    @RequestMapping(value = "/ribbon-consumer-find")
+    public String find(@RequestParam(value = "id") String id) throws ExecutionException, InterruptedException {
+        HystrixRequestContext context = HystrixRequestContext.initializeContext();
+        Future<String> result = allConsumerService.find(id);
+        context.close();
+        return result.get();
     }
 }

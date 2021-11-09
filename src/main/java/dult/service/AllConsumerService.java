@@ -21,7 +21,7 @@ public class AllConsumerService {
     RestTemplate restTemplate;
 
     @HystrixCollapser(batchMethod = "findAll",scope = com.netflix.hystrix.HystrixCollapser.Scope.GLOBAL,
-            collapserProperties = {@HystrixProperty(name="timerDelayInMilliseconds",value = "3000")})
+            collapserProperties = {@HystrixProperty(name="timerDelayInMilliseconds",value = "1000")})
     public Future<String> find(String id){
         System.out.println("====进入find方法=====");
         return null;
